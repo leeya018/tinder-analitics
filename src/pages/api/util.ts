@@ -176,9 +176,9 @@ export interface TinderUser {
 }
 
 export const starterFolder =
-  "C:/Users/user/Desktop/code/lee/tinder-customers/src/node/starters"
+  "C:/Users/user/Desktop/code/lee/tinder-analystics/src/node/starters"
 export const tensorFolderUrl =
-  "C:/Users/user/Desktop/code/lee/tinder-customers/src/node/tensorFolder"
+  "C:/Users/user/Desktop/code/lee/tinder-analystics/src/node/tensorFolder"
 
 export const swipesFolder = path.join(tensorFolderUrl, "swipes")
 export const errorsFolder = path.join(tensorFolderUrl, "errors")

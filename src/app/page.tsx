@@ -84,9 +84,9 @@ const ViewPage = observer(() => {
                   </div>
                 )}
               </div>
-              {/* <div>
+              <div>
                 {CustomerStore.chosenCustomer && (
-                  <div className="md:flex  ">
+                  <div className="lg:flex items-center justify-around  ">
                     <Calender
                       chosenDate={chosenDate}
                       setChosenDate={setChosenDate}
@@ -98,7 +98,7 @@ const ViewPage = observer(() => {
                     />
                   </div>
                 )}
-              </div> */}
+              </div>
             </div>
           </div>
         </div>

@@ -17,7 +17,7 @@ handler.use(corsMiddleware)
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const url =
-      "C://Users//user//Desktop//code//lee//tinder-customers//data.jsonl"
+      "C://Users//user//Desktop//code//lee//tinder-analystics//data.jsonl"
     // create model
     const completion = await openai.chat.completions.create({
       messages: [{ role: "system", content: "You are a helpful assistant." }],

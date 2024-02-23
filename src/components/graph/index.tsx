@@ -104,8 +104,8 @@ const Graph = observer<GraphProps>(({ likes, messages, date }) => {
   }
   return (
     <div
-      className="flex justify-center w-[90%] mb-32"
-      style={{ height: "500px" }}
+      className="flex justify-center items-center "
+      style={{ height: "300px" }}
     >
       <StackChart
         items={chartItems}
