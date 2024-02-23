@@ -18,7 +18,7 @@ const CustomerItem = observer<CustomerItemProps>(({ customer }) => {
   return (
     <div
       onClick={handleClick}
-      className="w-full p-3 pl-5 flex  items-center hover:bg-color-disabled-gray"
+      className="w-full p-3 pl-5 flex  items-center hover:bg-gray-400/10"
     >
       {customer.name}
     </div>

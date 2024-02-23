@@ -11,7 +11,6 @@ import {
   getLikeFilePath,
   getUrl,
   imagesFilePath,
-  likeFilePath,
 } from "@/pages/api/util"
 
 const InfoPage = observer(() => {

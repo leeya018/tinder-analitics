@@ -9,7 +9,12 @@ import { CustomerStore } from "@/mobx/customerStore"
 import Graph from "@/components/graph"
 
 import { useRouter } from "next/navigation"
-import { NavNames, getLikeFilePath, modals } from "@/pages/api/util"
+import {
+  NavNames,
+  getLikeFilePath,
+  getPassFilePath,
+  modals,
+} from "@/pages/api/util"
 import ProtectedRout from "@/components/protectedRout"
 import Navbar from "@/components/navbar"
 import Calender from "@/components/calender"
@@ -18,11 +23,14 @@ import Modal from "@/ui/modal"
 import Image from "next/image"
 import { ModalStore } from "@/mobx/modalStore"
 import axios from "axios"
+import navStore from "@/mobx/navStore"
 
 const HomePage = observer(() => {
   const [isShowCustomerList, setIsShowCustomerList] = useState(false)
   const [chosenDate, setChosenDate] = useState<moment.Moment>(moment())
-  const [data, setData] = useState<string[]>([])
+  const [likes, setLikes] = useState<string[]>([])
+  const [passes, setPasses] = useState<string[]>([])
+  const [filter, setFilter] = useState<string>("")
   const router = useRouter()
 
   useEffect(() => {
@@ -36,23 +44,28 @@ const HomePage = observer(() => {
 
   useEffect(() => {
     if (CustomerStore.chosenCustomer) {
-      fetchData()
+      Promise.all([fetchData(getPassFilePath), fetchData(getLikeFilePath)])
+        .then((data) => {
+          console.log(data)
+          setPasses(data[0])
+          setLikes(data[1])
+        })
+        .catch((err) => {
+          console.log(err.message)
+        })
     }
   }, [CustomerStore.chosenCustomer])
 
-  const fetchData = () => {
+  const fetchData = async (callback: any) => {
     const path = `http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/read`
     const name = CustomerStore.chosenCustomer?.name
     if (!name) throw new Error("name of customer not defined")
-    axios
-      .post(path, { path: getLikeFilePath(name) })
-      .then((res) => {
-        console.log(res.data)
-        setData(res.data)
-      })
-      .catch((err: any) => {
-        console.log(err)
-      })
+    try {
+      const res = await axios.post(path, { path: callback(name) })
+      return res.data
+    } catch (error: any) {
+      console.log(error.message)
+    }
   }
 
   const handleFocus = () => {
@@ -64,35 +77,24 @@ const HomePage = observer(() => {
     }, 500)
   }
 
+  const handleClick = (filt: string) => {
+    setFilter(filt)
+    ModalStore.openModal(modals.userInfo)
+  }
+
   console.log({ chosenDate })
   return (
     <ProtectedRout>
       <Navbar />
       <div className="min-h-screen w-screen overflow-y-scroll mt-20">
-        {/* <Modal>hello </Modal> */}
-        {/* {ModalStore.modalName === modals.images && (
-          <Modal>
-            <ul className=" flex justify-between flex-wrap  w-[80vw] overflow-y-scroll">
-              {CustomerStore.chosenUrls.map((url, key) => {
-                return (
-                  <li key={key}>
-                    <Image
-                      alt="women image"
-                      width={100}
-                      height={200}
-                      className="rounded-lg "
-                      src={url}
-                    />
-                  </li>
-                )
-              })}
-            </ul>
-          </Modal> */}
-        {/* )} */}
+        {ModalStore.modalName === modals.userInfo && (
+          <Modal>{filter === "likes" ? likes : passes}</Modal>
+        )}
         <div className="mb-2">
           <div className="mt-10 flex justify-center items-center"></div>
           <div className="flex justify-center ">
             <div className="w-[80%]  flex flex-col justify-center  gap-5">
+              {/* filter  */}
               <div className=" w-full">
                 <FilterInput
                   onFocus={handleFocus}
@@ -101,6 +103,7 @@ const HomePage = observer(() => {
                   value={filterStore.search}
                   placeholder="search customers"
                 />
+                {/* customer list  */}
                 {isShowCustomerList && (
                   <div className="relative w-full">
                     <div className="absolute w-full">
@@ -109,7 +112,23 @@ const HomePage = observer(() => {
                   </div>
                 )}
               </div>
+              {/* buttons */}
+              <div className="flex justify-start gap-2">
+                <button
+                  onClick={() => handleClick("likes")}
+                  className="p-2 border-2 border-blue-500 text-blue-500  rounded-full hover:bg-blue-500 hover:border-none hover:text-white cursor-pointer w-28 text-center"
+                >
+                  likes
+                </button>
+                <button
+                  onClick={() => handleClick("passes")}
+                  className="p-2 border-2 border-blue-500 text-blue-500  rounded-full hover:bg-blue-500 hover:border-none hover:text-white cursor-pointer w-28 text-center"
+                >
+                  passes
+                </button>
+              </div>
               <div>
+                {/* calender + graph */}
                 {CustomerStore.chosenCustomer && (
                   <div className="lg:flex items-center justify-around  ">
                     <Calender

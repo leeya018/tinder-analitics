@@ -24,8 +24,7 @@ export const getUrl = () => {
 export const isDev = () => process.env.NODE_ENV === "development"
 
 export const modals = {
-  message: "message",
-  images: "images",
+  userInfo: "userInfo",
 }
 
 export const fromTimestampToMoment = (date: Timestamp) => {
@@ -61,7 +60,8 @@ export const infoUrl =
   "C:/Users/user/Desktop/code/lee/tinder-customers/src/node/info"
 export const getLikeFilePath = (name: string) =>
   path.join(infoUrl, "swipes", name, "like.txt")
-export const likeFilePath = path.join(infoUrl, "swipes", "like.txt")
+export const getPassFilePath = (name: string) =>
+  path.join(infoUrl, "swipes", name, "pass.txt")
 export const imagesFilePath = path.join(infoUrl, "other", "images.txt")
 export const swipesFolder = path.join(infoUrl, "swipes")
 export const errorsFolder = path.join(infoUrl, "errors", "errors.txt")

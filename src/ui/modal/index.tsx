@@ -18,7 +18,7 @@ const Modal: FC<ModalProps> = observer(({ children }) => {
     >
       {/* inner div */}
       <div
-        className="absolute h-[80%] w-[80%] bg-white  "
+        className="absolute h-[80%] w-[80%] bg-white  overflow-hidden overflow-y-scroll px-10 py-20"
         onClick={(e: any) => e.stopPropagation()}
       >
         {/* close button */}
