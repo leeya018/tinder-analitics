@@ -1,4 +1,4 @@
-## tinder customers
+## TINDER ANALYTICS
 
 ### help me to treat multiple customers and make their dating experience in tinder better
 

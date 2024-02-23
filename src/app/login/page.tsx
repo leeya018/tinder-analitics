@@ -46,7 +46,7 @@ function login() {
         <div className="relative flex flex-col  items-center justify-center h-full w-[90%] md:w-[50%] lg:w-[30%] ">
           {/* title */}
           <div className="absolute top-1 left-1 text-lg font-bold text-left w-full p-2">
-            Tinder Customers
+            TINDER ANALYTICS
           </div>
           {/* signin */}
           <div className="w-[80%] flex flex-col gap-4">
@@ -83,7 +83,7 @@ function login() {
          shadow-lg  items-center justify-center  sm:flex  "
         >
           <div className="text-white font-bold text-5xl rotate-12">
-            Tinder Customers
+            TINDER ANALYTICS
           </div>
         </div>
       </div>

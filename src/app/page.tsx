@@ -44,7 +44,8 @@ const ViewPage = observer(() => {
   console.log({ chosenDate })
   return (
     <ProtectedRout>
-      <div className="min-h-screen w-screen overflow-y-scroll">
+      <Navbar />
+      <div className="min-h-screen w-screen overflow-y-scroll ">
         {ModalStore.modalName === modals.images && (
           <Modal>
             <ul className=" flex justify-between flex-wrap  w-[80vw] overflow-y-scroll">
