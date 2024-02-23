@@ -9,7 +9,7 @@ import { CustomerStore } from "@/mobx/customerStore"
 import Graph from "@/components/graph"
 
 import { useRouter } from "next/navigation"
-import { NavNames, modals } from "@/pages/api/util"
+import { NavNames, getLikeFilePath, modals } from "@/pages/api/util"
 import ProtectedRout from "@/components/protectedRout"
 import Navbar from "@/components/navbar"
 import Calender from "@/components/calender"
@@ -17,10 +17,12 @@ import moment from "moment"
 import Modal from "@/ui/modal"
 import Image from "next/image"
 import { ModalStore } from "@/mobx/modalStore"
+import axios from "axios"
 
-const ViewPage = observer(() => {
+const HomePage = observer(() => {
   const [isShowCustomerList, setIsShowCustomerList] = useState(false)
   const [chosenDate, setChosenDate] = useState<moment.Moment>(moment())
+  const [data, setData] = useState<string[]>([])
   const router = useRouter()
 
   useEffect(() => {
@@ -31,6 +33,27 @@ const ViewPage = observer(() => {
       CustomerStore.getMessages(customerId, chosenDate)
     }
   }, [chosenDate.month(), CustomerStore.chosenCustomer])
+
+  useEffect(() => {
+    if (CustomerStore.chosenCustomer) {
+      fetchData()
+    }
+  }, [CustomerStore.chosenCustomer])
+
+  const fetchData = () => {
+    const path = `http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/read`
+    const name = CustomerStore.chosenCustomer?.name
+    if (!name) throw new Error("name of customer not defined")
+    axios
+      .post(path, { path: getLikeFilePath(name) })
+      .then((res) => {
+        console.log(res.data)
+        setData(res.data)
+      })
+      .catch((err: any) => {
+        console.log(err)
+      })
+  }
 
   const handleFocus = () => {
     setIsShowCustomerList(true)
@@ -46,7 +69,8 @@ const ViewPage = observer(() => {
     <ProtectedRout>
       <Navbar />
       <div className="min-h-screen w-screen overflow-y-scroll ">
-        {ModalStore.modalName === modals.images && (
+        {/* <Modal>hello </Modal> */}
+        {/* {ModalStore.modalName === modals.images && (
           <Modal>
             <ul className=" flex justify-between flex-wrap  w-[80vw] overflow-y-scroll">
               {CustomerStore.chosenUrls.map((url, key) => {
@@ -63,8 +87,8 @@ const ViewPage = observer(() => {
                 )
               })}
             </ul>
-          </Modal>
-        )}
+          </Modal> */}
+        {/* )} */}
         <div className="mb-2">
           <div className="mt-10 flex justify-center items-center"></div>
           <div className="flex justify-center ">
@@ -108,4 +132,4 @@ const ViewPage = observer(() => {
   )
 })
 
-export default ViewPage
+export default HomePage
