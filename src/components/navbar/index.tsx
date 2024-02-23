@@ -29,7 +29,7 @@ const Navbar = observer(() => {
       {/*  nav */}
       <ul className="flex items-center gap-2">
         <li
-          onClick={() => handleNavItemClick("home")}
+          onClick={() => handleNavItemClick(NavNames.home)}
           className={`${
             navStore.nav === "home" && "underline"
           } p-2 hover:underline cursor-pointer`}
@@ -37,7 +37,7 @@ const Navbar = observer(() => {
           home
         </li>
         <li
-          onClick={() => handleNavItemClick("info")}
+          onClick={() => handleNavItemClick(NavNames.info)}
           className={`${
             navStore.nav === "info" && "underline"
           } p-2 hover:underline cursor-pointer`}

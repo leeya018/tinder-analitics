@@ -12,7 +12,7 @@ if (typeof window === "undefined") {
 export const NavNames = {
   login: "/login",
   home: "/",
-  data: "/data",
+  info: "/info",
 }
 
 export const getUrl = () => {
@@ -68,7 +68,7 @@ export const errorsFolder = path.join(infoUrl, "errors", "errors.txt")
 export const messagesFolder = path.join(infoUrl, "message", "messages.txt")
 export const actionsFolder = path.join(infoUrl, "actions", "functions.txt")
 
-export const filePaths = {
+export const filePaths: any = {
   images: imagesFilePath,
   errors: errorsFolder,
   messages: messagesFolder,
