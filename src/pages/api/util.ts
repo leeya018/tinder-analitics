@@ -4,6 +4,11 @@ import { v4 as uuidv4 } from "uuid"
 import axios from "axios"
 import path from "path"
 
+let fs: any
+if (typeof window === "undefined") {
+  fs = require("fs")
+}
+
 export const NavNames = {
   login: "/login",
   home: "/",
@@ -46,5 +51,26 @@ export const getFullStrTime = () => {
   return moment().format(dateTimeFormat)
 }
 
+export const readFromFile = (filePath: string) => {
+  const data = fs.readFileSync(filePath, { encoding: "utf8", flag: "r" })
+  const lines = data.split("\n").filter((line: string) => line.trim() !== "")
+  return lines
+}
+
 export const infoUrl =
   "C:/Users/user/Desktop/code/lee/tinder-customers/src/node/info"
+export const getLikeFilePath = (name: string) =>
+  path.join(infoUrl, "swipes", name, "like.txt")
+export const likeFilePath = path.join(infoUrl, "swipes", "like.txt")
+export const imagesFilePath = path.join(infoUrl, "other", "images.txt")
+export const swipesFolder = path.join(infoUrl, "swipes")
+export const errorsFolder = path.join(infoUrl, "errors", "errors.txt")
+export const messagesFolder = path.join(infoUrl, "message", "messages.txt")
+export const actionsFolder = path.join(infoUrl, "actions", "functions.txt")
+
+export const filePaths = {
+  images: imagesFilePath,
+  errors: errorsFolder,
+  messages: messagesFolder,
+  actions: actionsFolder,
+}

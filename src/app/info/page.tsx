@@ -4,9 +4,41 @@ import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import Navbar from "@/components/navbar"
 import ProtectedRout from "@/components/protectedRout"
+import FilterOptions from "@/components/filterOptions"
+import axios from "axios"
+import {
+  filePaths,
+  getLikeFilePath,
+  getUrl,
+  imagesFilePath,
+  likeFilePath,
+} from "@/pages/api/util"
 
 const InfoPage = observer(() => {
-  const [nav, setNav] = useState("")
+  const [nav, setNav] = useState<string>("images")
+  const [data, setData] = useState<string[]>([])
+
+  useEffect(() => {
+    console.log({ imagesFilePath })
+    fetchData()
+    if (nav === "") {
+      setData([])
+    }
+  }, [nav])
+
+  const fetchData = () => {
+    const path = `http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/read`
+
+    axios
+      .post(path, { path: filePaths[nav] })
+      .then((res) => {
+        console.log(res.data)
+        setData(res.data)
+      })
+      .catch((err: any) => {
+        console.log(err)
+      })
+  }
 
   const chooseNav = (name: string) => {
     if (name === nav) {
@@ -20,22 +52,18 @@ const InfoPage = observer(() => {
       <Navbar />
       <div className="min-h-screen w-screen overflow-y-scroll ">
         {/* options */}
-        <ul className="flex items-center py-3 gap-2 justify-center">
-          <NavItem
-            onClick={() => chooseNav("actions")}
-            name={"actions"}
-            chosenNav={nav}
-          />
-          <NavItem
-            onClick={() => chooseNav("messages")}
-            name={"messages"}
-            chosenNav={nav}
-          />
-          <NavItem
-            onClick={() => chooseNav("errors")}
-            name={"errors"}
-            chosenNav={nav}
-          />
+        <FilterOptions chooseNav={chooseNav} nav={nav} />
+        {/* items info */}
+        {/* errors */}
+        <ul>
+          {data.map((line: string, key: number) => (
+            <li key={key}>
+              {" "}
+              {line}
+              <br />
+              <br />
+            </li>
+          ))}
         </ul>
       </div>
     </ProtectedRout>
@@ -43,23 +71,3 @@ const InfoPage = observer(() => {
 })
 
 export default InfoPage
-
-type NavItemProps = {
-  onClick: () => void
-  name: string
-  chosenNav: string
-}
-const NavItem = ({ onClick, name, chosenNav }: NavItemProps) => {
-  return (
-    <li
-      onClick={onClick}
-      className={`p-2  border-2 rounded-full hover:bg-blue-400 hover:text-white cursor-pointer w-28 text-center ${
-        chosenNav === name
-          ? "text-white bg-blue-500"
-          : "text-blue-500 border-blue-500"
-      }`}
-    >
-      {name}
-    </li>
-  )
-}
