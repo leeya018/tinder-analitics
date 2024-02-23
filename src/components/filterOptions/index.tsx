@@ -42,10 +42,10 @@ const NavItem = ({ onClick, name, chosenNav }: NavItemProps) => {
   return (
     <li
       onClick={onClick}
-      className={`p-2  border-2 rounded-full hover:bg-blue-400 hover:text-white cursor-pointer w-28 text-center ${
+      className={`p-2  rounded-full hover:bg-blue-400 hover:border-none hover:text-white cursor-pointer w-28 text-center ${
         chosenNav === name
-          ? "text-white bg-blue-500"
-          : "text-blue-500 border-blue-500"
+          ? "text-white bg-blue-500 border-none"
+          : "text-blue-500 border-blue-500 border-2 "
       }`}
     >
       {name}

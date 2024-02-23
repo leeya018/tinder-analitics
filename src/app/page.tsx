@@ -68,7 +68,7 @@ const HomePage = observer(() => {
   return (
     <ProtectedRout>
       <Navbar />
-      <div className="min-h-screen w-screen overflow-y-scroll ">
+      <div className="min-h-screen w-screen overflow-y-scroll mt-20">
         {/* <Modal>hello </Modal> */}
         {/* {ModalStore.modalName === modals.images && (
           <Modal>

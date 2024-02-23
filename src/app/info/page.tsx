@@ -50,7 +50,7 @@ const InfoPage = observer(() => {
   return (
     <ProtectedRout>
       <Navbar />
-      <div className="min-h-screen w-screen overflow-y-scroll ">
+      <div className="min-h-screen w-screen overflow-y-scroll mt-20">
         {/* options */}
         <FilterOptions chooseNav={chooseNav} nav={nav} />
         {/* items info */}
