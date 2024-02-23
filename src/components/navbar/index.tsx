@@ -31,7 +31,7 @@ const Navbar = observer(() => {
         <li
           onClick={() => handleNavItemClick(NavNames.home)}
           className={`${
-            navStore.nav === "home" && "underline"
+            navStore.nav === NavNames.home && "underline"
           } p-2 hover:underline cursor-pointer`}
         >
           home
@@ -39,7 +39,7 @@ const Navbar = observer(() => {
         <li
           onClick={() => handleNavItemClick(NavNames.info)}
           className={`${
-            navStore.nav === "info" && "underline"
+            navStore.nav === NavNames.info && "underline"
           } p-2 hover:underline cursor-pointer`}
         >
           info

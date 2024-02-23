@@ -50,7 +50,7 @@ const InfoPage = observer(() => {
   return (
     <ProtectedRout>
       <Navbar />
-      <div className="min-h-screen w-screen overflow-y-scroll mt-20">
+      <div className="min-h-screen max-w-screen mt-20 mx-20 overflow-hidden">
         {/* options */}
         <FilterOptions chooseNav={chooseNav} nav={nav} />
         {/* items info */}
@@ -59,7 +59,11 @@ const InfoPage = observer(() => {
           {data.map((line: string, key: number) => (
             <li key={key}>
               {" "}
-              {line}
+              {nav === "images" ? (
+                <a href={line}> {line}</a>
+              ) : (
+                <div>{line}</div>
+              )}
               <br />
               <br />
             </li>
