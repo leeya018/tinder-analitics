@@ -24,6 +24,7 @@ import Image from "next/image"
 import { ModalStore } from "@/mobx/modalStore"
 import axios from "axios"
 import navStore from "@/mobx/navStore"
+import DataList from "@/components/dataList"
 
 const HomePage = observer(() => {
   const [isShowCustomerList, setIsShowCustomerList] = useState(false)
@@ -88,7 +89,12 @@ const HomePage = observer(() => {
       <Navbar />
       <div className="min-h-screen w-screen overflow-y-scroll mt-20">
         {ModalStore.modalName === modals.userInfo && (
-          <Modal>{filter === "likes" ? likes : passes}</Modal>
+          <Modal>
+            <DataList
+              strArr={filter === "likes" ? likes : passes}
+              nav={filter}
+            />
+          </Modal>
         )}
         <div className="mb-2">
           <div className="mt-10 flex justify-center items-center"></div>
@@ -112,34 +118,37 @@ const HomePage = observer(() => {
                   </div>
                 )}
               </div>
-              {/* buttons */}
-              <div className="flex justify-start gap-2">
-                <button
-                  onClick={() => handleClick("likes")}
-                  className="p-2 border-2 border-blue-500 text-blue-500  rounded-full hover:bg-blue-500 hover:border-none hover:text-white cursor-pointer w-28 text-center"
-                >
-                  likes
-                </button>
-                <button
-                  onClick={() => handleClick("passes")}
-                  className="p-2 border-2 border-blue-500 text-blue-500  rounded-full hover:bg-blue-500 hover:border-none hover:text-white cursor-pointer w-28 text-center"
-                >
-                  passes
-                </button>
-              </div>
+
               <div>
                 {/* calender + graph */}
                 {CustomerStore.chosenCustomer && (
-                  <div className="lg:flex items-center justify-around  ">
-                    <Calender
-                      chosenDate={chosenDate}
-                      setChosenDate={setChosenDate}
-                    />
-                    <Graph
-                      date={chosenDate}
-                      likes={CustomerStore.likes}
-                      messages={CustomerStore.messages}
-                    />
+                  <div>
+                    {/* buttons */}
+                    <div className="flex justify-start gap-2">
+                      <button
+                        onClick={() => handleClick("likes")}
+                        className="p-2 border-2 border-blue-500 text-blue-500  rounded-full hover:bg-blue-500 hover:border-none hover:text-white cursor-pointer w-28 text-center"
+                      >
+                        likes
+                      </button>
+                      <button
+                        onClick={() => handleClick("passes")}
+                        className="p-2 border-2 border-blue-500 text-blue-500  rounded-full hover:bg-blue-500 hover:border-none hover:text-white cursor-pointer w-28 text-center"
+                      >
+                        passes
+                      </button>
+                    </div>
+                    <div className="lg:flex items-center justify-around  ">
+                      <Calender
+                        chosenDate={chosenDate}
+                        setChosenDate={setChosenDate}
+                      />
+                      <Graph
+                        date={chosenDate}
+                        likes={CustomerStore.likes}
+                        messages={CustomerStore.messages}
+                      />
+                    </div>
                   </div>
                 )}
               </div>

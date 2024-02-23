@@ -12,6 +12,7 @@ import {
   getUrl,
   imagesFilePath,
 } from "@/pages/api/util"
+import DataList from "@/components/dataList"
 
 const InfoPage = observer(() => {
   const [nav, setNav] = useState<string>("images")
@@ -54,20 +55,8 @@ const InfoPage = observer(() => {
         <FilterOptions chooseNav={chooseNav} nav={nav} />
         {/* items info */}
         {/* errors */}
-        <ul>
-          {data.map((line: string, key: number) => (
-            <li key={key}>
-              {" "}
-              {nav === "images" ? (
-                <a href={line}> {line}</a>
-              ) : (
-                <div>{line}</div>
-              )}
-              <br />
-              <br />
-            </li>
-          ))}
-        </ul>
+        {/*  data list  */}
+        <DataList strArr={data} nav={nav} />
       </div>
     </ProtectedRout>
   )
