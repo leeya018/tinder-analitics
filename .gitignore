@@ -36,5 +36,5 @@ next-env.d.ts
 .env
 
 
-/src/node/tensorFolder/
+/src/node/info/
 /src/node/messages.txt

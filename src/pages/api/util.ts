@@ -45,3 +45,6 @@ export const getFullStrTime = () => {
   const dateTimeFormat = "DD-MM-YYYY HH:mm:ss"
   return moment().format(dateTimeFormat)
 }
+
+export const infoUrl =
+  "C:/Users/user/Desktop/code/lee/tinder-customers/src/node/info"
