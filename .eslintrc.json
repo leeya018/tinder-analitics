@@ -1,0 +1,40 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "next/core-web-vitals",
+    "eslint-config-next",
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "legacyDecorators": true,
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react"],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "no-unused-vars": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "react-hooks/rules-of-hooks": "off",
+    "mobx/missing-observer": "off"
+
+    // "eslint.autoFixOnSave": true,
+    // "indent": ["error", 4]
+    // "linebreak-style": ["error", "unix"],
+    // "quotes": ["error", "double"],
+    // "react-native/no-unused-styles": 2,
+    // "react-native/split-platform-components": 2,
+    // "react-native/no-inline-styles": 2,
+    // "react-native/no-color-literals": 2,
+    // "react-native/no-raw-text": 2
+  }
+}

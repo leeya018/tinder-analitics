@@ -1,0 +1,26 @@
+ assesment 
+ for each customer there are 3 function 
+
+ likeAll -10 recs 
+ likeAutomation-100 recs 
+ messageAutomation -10 recs
+
+ together 120 recs to handle 
+
+ each rec handle take 7 seconds 
+ 
+120* 7= 1000
+
+1000/60=16  => 20 minutes for each customer
+
+24 hours a day 
+
+24*60 /20 =72 => 70
+
+lets say that we want 3 rounds a day for each customer
+
+so 70 /3 =23 customers a day 
+
+23*500 nis = 11500 nis a month
+
+ 
