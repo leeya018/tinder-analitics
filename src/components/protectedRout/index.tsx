@@ -1,4 +1,5 @@
 "use client"
+
 import { auth } from "@/firebase"
 import userStore from "@/mobx/userStore"
 import { NavNames } from "@/pages/api/util"
@@ -6,7 +7,10 @@ import { onAuthStateChanged } from "firebase/auth"
 import { useRouter } from "next/navigation"
 import React, { useEffect, useState } from "react"
 
-export default function ProtectedRout({ children }) {
+type props = {
+  children: React.ReactNode
+}
+export default function ProtectedRout({ children }: props) {
   const [isLoading, setIsLoading] = useState(true)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const router = useRouter()
