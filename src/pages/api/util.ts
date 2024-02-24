@@ -52,6 +52,12 @@ export const getFullStrTime = () => {
   const dateTimeFormat = "DD-MM-YYYY HH:mm:ss"
   return moment().format(dateTimeFormat)
 }
+export const fromTimestampToStrTime = (date: Timestamp) => {
+  const jsDate = date.toDate()
+  const momentDate = moment(jsDate)
+  const dateTimeFormat = "DD-MM-YYYY HH:mm:ss"
+  return moment(momentDate).format(dateTimeFormat)
+}
 
 export const readFromFile = (filePath: string) => {
   try {
@@ -80,4 +86,12 @@ export const filePaths: any = {
   errors: errorsFolder,
   messages: messagesFolder,
   actions: actionsFolder,
+}
+
+export const infoTypes = {
+  LIKE: "like",
+  PASS: "pass",
+  ERROR: "error",
+  FUNCTION: "function",
+  MESSAGE: "message",
 }

@@ -1,32 +1,31 @@
+import { infoTypes } from "@/pages/api/util"
 import React from "react"
 
 type FilterOptionsProps = {
-  chooseNav: (name: string) => void
-  nav: string
+  chooseFilter: (name: string) => void
+  filter: string
 }
 
-export default function FilterOptions({ chooseNav, nav }: FilterOptionsProps) {
+export default function FilterOptions({
+  chooseFilter,
+  filter,
+}: FilterOptionsProps) {
   return (
     <ul className="flex items-center py-3 gap-2 justify-center">
       <NavItem
-        onClick={() => chooseNav("images")}
-        name={"images"}
-        chosenNav={nav}
-      />
-      <NavItem
-        onClick={() => chooseNav("actions")}
+        onClick={() => chooseFilter(infoTypes.FUNCTION)}
         name={"actions"}
-        chosenNav={nav}
+        chosenNav={filter}
       />
       <NavItem
-        onClick={() => chooseNav("messages")}
+        onClick={() => chooseFilter(infoTypes.MESSAGE)}
         name={"messages"}
-        chosenNav={nav}
+        chosenNav={filter}
       />
       <NavItem
-        onClick={() => chooseNav("errors")}
+        onClick={() => chooseFilter(infoTypes.ERROR)}
         name={"errors"}
-        chosenNav={nav}
+        chosenNav={filter}
       />
     </ul>
   )

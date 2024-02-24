@@ -2,49 +2,42 @@
 
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import Navbar from "@/components/navbar"
 import ProtectedRout from "@/components/protectedRout"
 import FilterOptions from "@/components/filterOptions"
 import axios from "axios"
-import {
-  filePaths,
-  getLikeFilePath,
-  getUrl,
-  imagesFilePath,
-} from "@/pages/api/util"
+import { imagesFilePath, infoTypes } from "@/pages/api/util"
 import DataList from "@/components/dataList"
+import Navbar from "@/components/navbar"
+import { Info } from "@/api/firestore/info/interfaces"
+import { getInfos } from "@/api/firestore/info/getInfos"
 
 const InfoPage = observer(() => {
-  const [nav, setNav] = useState<string>("images")
-  const [data, setData] = useState<string[]>([])
+  const [filter, setFilter] = useState<string>(infoTypes.MESSAGE)
+  const [infos, setInfos] = useState<Info[]>([])
 
   useEffect(() => {
     console.log({ imagesFilePath })
-    fetchData()
-    if (nav === "") {
-      setData([])
-    }
-  }, [nav])
 
-  const fetchData = () => {
-    const path = `http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/read`
-
-    axios
-      .post(path, { path: filePaths[nav] })
-      .then((res) => {
-        console.log(res.data)
-        setData(res.data)
-      })
-      .catch((err: any) => {
-        console.log(err)
-      })
-  }
-
-  const chooseNav = (name: string) => {
-    if (name === nav) {
-      setNav("")
+    if (filter === "") {
+      setInfos([])
     } else {
-      setNav(name)
+      getInfos({ type: filter })
+        .then((infos) => {
+          console.log(infos)
+          setInfos(infos)
+        })
+        .catch((error) => {
+          console.log(error.message)
+        })
+      console.log({ filter })
+    }
+  }, [filter])
+
+  const chooseFilter = (name: string) => {
+    if (name === filter) {
+      setFilter("")
+    } else {
+      setFilter(name)
     }
   }
   return (
@@ -52,11 +45,11 @@ const InfoPage = observer(() => {
       <Navbar />
       <div className="min-h-screen max-w-screen mt-20 mx-20 overflow-hidden">
         {/* options */}
-        <FilterOptions chooseNav={chooseNav} nav={nav} />
+        <FilterOptions chooseFilter={chooseFilter} filter={filter} />
         {/* items info */}
         {/* errors */}
         {/*  data list  */}
-        <DataList strArr={data} nav={nav} />
+        <DataList infos={infos} filter={filter} />
       </div>
     </ProtectedRout>
   )
