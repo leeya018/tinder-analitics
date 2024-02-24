@@ -6,7 +6,7 @@ const nextConfig = {
     domains: [
       "lh3.googleusercontent.com",
       "oaidalleapiprodscus.blob.core.windows.net",
-      "tinder-analystics.netlify.app",
+      "tinder-analitics.netlify.app",
       "images-ssl.gotinder.com",
     ],
   },

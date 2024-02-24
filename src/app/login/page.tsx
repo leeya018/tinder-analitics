@@ -13,7 +13,6 @@ import Image from "next/image"
 import { observer } from "mobx-react-lite"
 import { useRouter } from "next/navigation"
 import { NavNames } from "@/pages/api/util"
-import { addUserFirestore } from "@/api/firestore"
 import { User } from "@/api/firestore/user/interfaces"
 import Alerts from "@/ui/Alerts"
 
@@ -27,8 +26,7 @@ function login() {
     signInWithPopup(auth, provider)
       .then(async (UserCredentialImp) => {
         const { email, displayName, uid } = UserCredentialImp.user
-        const newUser: User = { email, displayName, userId: uid }
-        await addUserFirestore(newUser)
+
         router.push(NavNames.home)
       })
       .catch((err) => {

@@ -99,7 +99,7 @@ const Graph = observer<GraphProps>(({ likes, messages, date }) => {
     if (!likeItem) return []
     console.log(likeItem.likeUrls)
     CustomerStore.setChosenImages(likeItem.likeUrls)
-    ModalStore.openModal(modals.images)
+
     return likeItem.likeUrls
   }
   return (

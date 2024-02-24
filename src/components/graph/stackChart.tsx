@@ -25,7 +25,7 @@ ChartJS.register(
 const StackChart = observer<any>(({ items, name, label1, label2, onClick }) => {
   const options = {
     responsive: true,
-    onClick: (event, elements) => {
+    onClick: (event: any, elements: any) => {
       if (elements.length > 0) {
         const elementIndex = elements[0].index
         const day = data.labels[elementIndex]
@@ -49,13 +49,13 @@ const StackChart = observer<any>(({ items, name, label1, label2, onClick }) => {
     datasets: [
       {
         label: label1,
-        data: items.map((item) => item.likes),
+        data: items.map((item: any) => item.likes),
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
       {
         label: label2,
-        data: items.map((item) => item.messages),
+        data: items.map((item: any) => item.messages),
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },

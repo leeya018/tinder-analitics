@@ -13,6 +13,7 @@ import {
   NavNames,
   getLikeFilePath,
   getPassFilePath,
+  getUrl,
   modals,
 } from "@/pages/api/util"
 import ProtectedRout from "@/components/protectedRout"
@@ -58,7 +59,7 @@ const HomePage = observer(() => {
   }, [CustomerStore.chosenCustomer])
 
   const fetchData = async (callback: any) => {
-    const path = `http://localhost:${process.env.NEXT_PUBLIC_PORT}/api/read`
+    const path = `${getUrl()}/api/read`
     const name = CustomerStore.chosenCustomer?.name
     if (!name) throw new Error("name of customer not defined")
     try {
