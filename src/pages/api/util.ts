@@ -54,9 +54,13 @@ export const getFullStrTime = () => {
 }
 
 export const readFromFile = (filePath: string) => {
-  const data = fs.readFileSync(filePath, { encoding: "utf8", flag: "r" })
-  const lines = data.split("\n").filter((line: string) => line.trim() !== "")
-  return lines
+  try {
+    const data = fs.readFileSync(filePath, { encoding: "utf8", flag: "r" })
+    const lines = data.split("\n").filter((line: string) => line.trim() !== "")
+    return lines
+  } catch (error: any) {
+    console.log(error.message)
+  }
 }
 
 export const infoUrl =
