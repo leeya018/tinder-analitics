@@ -29,9 +29,11 @@ import navStore from "@/mobx/navStore"
 import DataList from "@/components/dataList"
 import { Info } from "@/api/firestore/info/interfaces"
 import { getInfos } from "@/api/firestore/info/getInfos"
+import { Customer } from "@/api/firestore/customer/interfaces"
 
 const HomePage = observer(() => {
   const [isShowCustomerList, setIsShowCustomerList] = useState(false)
+  const [name, setName] = useState("")
   const [chosenDate, setChosenDate] = useState<moment.Moment>(moment())
   const [infos, setInfos] = useState<Info[]>([])
   const [filter, setFilter] = useState<string>("")
@@ -55,7 +57,7 @@ const HomePage = observer(() => {
     }, 500)
   }
 
-  const handleClick = async (filt: string) => {
+  const filterClick = async (filt: string) => {
     setFilter(filt)
     const data = await getInfos({ type: filt })
     console.log({ data })
@@ -63,6 +65,12 @@ const HomePage = observer(() => {
     ModalStore.openModal(modals.userInfo)
   }
 
+  const customerClick = (customer: Customer) => {
+    setName(customer.name)
+    CustomerStore.setChosenCustomer(customer)
+    CustomerStore.getMessages(customer.id, moment())
+    CustomerStore.getLikes(customer.id, moment())
+  }
   console.log({ chosenDate })
   return (
     <ProtectedRout>
@@ -82,15 +90,15 @@ const HomePage = observer(() => {
                 <FilterInput
                   onFocus={handleFocus}
                   onBlur={handleBlur}
-                  onChange={(e) => filterStore.setFilter(e.target.value)}
-                  value={filterStore.search}
+                  onChange={(e) => setName(e.target.value)}
+                  value={name}
                   placeholder="search customers"
                 />
                 {/* customer list  */}
                 {isShowCustomerList && (
                   <div className="relative w-full">
                     <div className="absolute w-full">
-                      <CustomerList />
+                      <CustomerList name={name} handleClick={customerClick} />
                     </div>
                   </div>
                 )}
@@ -103,13 +111,13 @@ const HomePage = observer(() => {
                     {/* buttons */}
                     <div className="flex justify-start gap-2">
                       <button
-                        onClick={() => handleClick(infoTypes.LIKE)}
+                        onClick={() => filterClick(infoTypes.LIKE)}
                         className="p-2 border-2 border-blue-500 text-blue-500  rounded-full hover:bg-blue-500 hover:border-none hover:text-white cursor-pointer w-28 text-center"
                       >
                         likes
                       </button>
                       <button
-                        onClick={() => handleClick(infoTypes.PASS)}
+                        onClick={() => filterClick(infoTypes.PASS)}
                         className="p-2 border-2 border-blue-500 text-blue-500  rounded-full hover:bg-blue-500 hover:border-none hover:text-white cursor-pointer w-28 text-center"
                       >
                         passes

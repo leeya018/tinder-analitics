@@ -19,6 +19,7 @@ export const getInfos = async (filter: any) => {
     const q = query(
       colRef,
       where("type", "==", filter.type),
+      where("customerName", "==", filter.customerName),
       orderBy("createdDate", "desc")
     )
     const querySnapshot = await getDocs(q)

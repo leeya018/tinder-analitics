@@ -12,32 +12,32 @@ export default function FilterOptions({
 }: FilterOptionsProps) {
   return (
     <ul className="flex items-center py-3 gap-2 justify-center">
-      <NavItem
+      <FilterItem
         onClick={() => chooseFilter(infoTypes.FUNCTION)}
-        name={"actions"}
+        name={infoTypes.FUNCTION}
         chosenNav={filter}
       />
-      <NavItem
+      <FilterItem
         onClick={() => chooseFilter(infoTypes.MESSAGE)}
-        name={"messages"}
+        name={infoTypes.MESSAGE}
         chosenNav={filter}
       />
-      <NavItem
+      <FilterItem
         onClick={() => chooseFilter(infoTypes.ERROR)}
-        name={"errors"}
+        name={infoTypes.ERROR}
         chosenNav={filter}
       />
     </ul>
   )
 }
 
-type NavItemProps = {
+type FilterItemProps = {
   onClick: () => void
   name: string
   chosenNav: string
 }
 
-const NavItem = ({ onClick, name, chosenNav }: NavItemProps) => {
+const FilterItem = ({ onClick, name, chosenNav }: FilterItemProps) => {
   return (
     <li
       onClick={onClick}

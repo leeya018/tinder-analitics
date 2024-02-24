@@ -3,19 +3,24 @@ import { observer } from "mobx-react-lite"
 import { CustomerStore } from "@/mobx/customerStore"
 import { Customer } from "@/api/firestore/customer/interfaces"
 import CustomerItem from "../customerItem"
-import filterStore from "@/mobx/filterStore"
 
-const CustomerList = observer(() => {
+type CustomerListProps = {
+  name: string
+  handleClick: (customer: Customer) => void
+}
+const CustomerList = observer(({ name, handleClick }: CustomerListProps) => {
   return (
     <ul>
       {CustomerStore.customers
         .filter((customer: Customer) =>
-          customer.name
-            .toLocaleLowerCase()
-            .includes(filterStore.search.toLocaleLowerCase())
+          customer.name.toLocaleLowerCase().includes(name.toLocaleLowerCase())
         )
         .map((customer: Customer, key: number) => (
-          <CustomerItem key={key} customer={customer} />
+          <CustomerItem
+            key={key}
+            customer={customer}
+            handleClick={handleClick}
+          />
         ))}
     </ul>
   )
