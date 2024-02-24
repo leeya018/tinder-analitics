@@ -17,7 +17,7 @@ const nextConfig = {
         headers: [
           {
             key: "Access-Control-Allow-Origin",
-            value: `https://tinder-analystics.netlify.app`,
+            value: `https://tinder-analitics.netlify.app`,
           },
         ],
       },
