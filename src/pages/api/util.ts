@@ -16,9 +16,12 @@ export const NavNames = {
 }
 
 export const getUrl = () => {
-  return process.env.NODE_ENV === "development"
-    ? process.env.NEXT_PUBLIC_BASIC_URL
-    : process.env.NEXT_PUBLIC_BASIC_URL_PRODUCTION
+  const url =
+    process.env.NODE_ENV === "development"
+      ? process.env.NEXT_PUBLIC_BASIC_URL
+      : process.env.NEXT_PUBLIC_BASIC_URL_PRODUCTION
+  console.log({ url })
+  return url
 }
 
 export const isDev = () => process.env.NODE_ENV === "development"
