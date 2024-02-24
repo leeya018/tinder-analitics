@@ -14,6 +14,7 @@ import {
   getLikeFilePath,
   getPassFilePath,
   getUrl,
+  infoTypes,
   modals,
 } from "@/pages/api/util"
 import ProtectedRout from "@/components/protectedRout"
@@ -26,12 +27,13 @@ import { ModalStore } from "@/mobx/modalStore"
 import axios from "axios"
 import navStore from "@/mobx/navStore"
 import DataList from "@/components/dataList"
+import { Info } from "@/api/firestore/info/interfaces"
+import { getInfos } from "@/api/firestore/info/getInfos"
 
 const HomePage = observer(() => {
   const [isShowCustomerList, setIsShowCustomerList] = useState(false)
   const [chosenDate, setChosenDate] = useState<moment.Moment>(moment())
-  const [likes, setLikes] = useState<string[]>([])
-  const [passes, setPasses] = useState<string[]>([])
+  const [infos, setInfos] = useState<Info[]>([])
   const [filter, setFilter] = useState<string>("")
   const router = useRouter()
 
@@ -44,32 +46,6 @@ const HomePage = observer(() => {
     }
   }, [chosenDate.month(), CustomerStore.chosenCustomer])
 
-  useEffect(() => {
-    if (CustomerStore.chosenCustomer) {
-      Promise.all([fetchData(getPassFilePath), fetchData(getLikeFilePath)])
-        .then((data) => {
-          console.log(data)
-          setPasses(data[0])
-          setLikes(data[1])
-        })
-        .catch((err) => {
-          console.log(err.message)
-        })
-    }
-  }, [CustomerStore.chosenCustomer])
-
-  const fetchData = async (callback: any) => {
-    const path = `${getUrl()}/api/read`
-    const name = CustomerStore.chosenCustomer?.name
-    if (!name) throw new Error("name of customer not defined")
-    try {
-      const res = await axios.post(path, { path: callback(name) })
-      return res.data
-    } catch (error: any) {
-      console.log(error.message)
-    }
-  }
-
   const handleFocus = () => {
     setIsShowCustomerList(true)
   }
@@ -79,8 +55,11 @@ const HomePage = observer(() => {
     }, 500)
   }
 
-  const handleClick = (filt: string) => {
+  const handleClick = async (filt: string) => {
     setFilter(filt)
+    const data = await getInfos({ type: filt })
+    console.log({ data })
+    setInfos(data)
     ModalStore.openModal(modals.userInfo)
   }
 
@@ -91,10 +70,7 @@ const HomePage = observer(() => {
       <div className="min-h-screen w-screen overflow-y-scroll mt-20">
         {ModalStore.modalName === modals.userInfo && (
           <Modal>
-            <DataList
-              strArr={filter === "likes" ? likes : passes}
-              nav={filter}
-            />
+            <DataList infos={infos} filter={filter} />
           </Modal>
         )}
         <div className="mb-2">
@@ -127,13 +103,13 @@ const HomePage = observer(() => {
                     {/* buttons */}
                     <div className="flex justify-start gap-2">
                       <button
-                        onClick={() => handleClick("likes")}
+                        onClick={() => handleClick(infoTypes.LIKE)}
                         className="p-2 border-2 border-blue-500 text-blue-500  rounded-full hover:bg-blue-500 hover:border-none hover:text-white cursor-pointer w-28 text-center"
                       >
                         likes
                       </button>
                       <button
-                        onClick={() => handleClick("passes")}
+                        onClick={() => handleClick(infoTypes.PASS)}
                         className="p-2 border-2 border-blue-500 text-blue-500  rounded-full hover:bg-blue-500 hover:border-none hover:text-white cursor-pointer w-28 text-center"
                       >
                         passes

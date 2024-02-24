@@ -19,7 +19,7 @@ export const getInfos = async (filter: any) => {
     const q = query(
       colRef,
       where("type", "==", filter.type),
-      orderBy("createdDate")
+      orderBy("createdDate", "desc")
     )
     const querySnapshot = await getDocs(q)
     const infos = querySnapshot.docs.map((doc) => doc.data())

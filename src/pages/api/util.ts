@@ -95,3 +95,4 @@ export const infoTypes = {
   FUNCTION: "function",
   MESSAGE: "message",
 }
+export const linksItems = [infoTypes.LIKE, infoTypes.PASS]
