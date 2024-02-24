@@ -1,27 +1,18 @@
 import { db } from "@/firebase"
-import {
-  Timestamp,
-  addDoc,
-  arrayUnion,
-  collection,
-  doc,
-  getDocs,
-  orderBy,
-  query,
-  serverTimestamp,
-  updateDoc,
-  where,
-} from "firebase/firestore"
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore"
 
 export const getInfos = async (filter: any) => {
   try {
     const colRef = collection(db, "info")
-    const q = query(
-      colRef,
+
+    const conditions = [
       where("type", "==", filter.type),
-      where("customerName", "==", filter.customerName),
-      orderBy("createdDate", "desc")
-    )
+      orderBy("createdDate", "desc"),
+    ]
+    if (filter.customerName) {
+      conditions.push(where("customerName", "==", filter.customerName))
+    }
+    const q = query(colRef, ...conditions)
     const querySnapshot = await getDocs(q)
     const infos = querySnapshot.docs.map((doc) => doc.data())
     return infos

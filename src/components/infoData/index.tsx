@@ -6,11 +6,12 @@ type InfoDataProps = {
   filter: string
 }
 export function InfoData({ info, filter }: InfoDataProps) {
-  const { data, createdDate } = info
+  const { data, createdDate, customerName } = info
   if (!createdDate) throw new Error("createdDate is not valid ")
   return (
     <div className=" flex items-center gap-4">
       <div>{fromTimestampToStrTime(createdDate)}</div>
+      <div>{customerName}</div>
       {linksItems.includes(filter) ? (
         <a
           className="line-clamp-3"

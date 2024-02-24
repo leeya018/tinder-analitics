@@ -14,6 +14,7 @@ import FilterInput from "@/ui/input/filter"
 import filterStore from "@/mobx/filterStore"
 import CustomerList from "@/components/customerList"
 import { CustomerStore } from "@/mobx/customerStore"
+import { Customer } from "@/api/firestore/customer/interfaces"
 
 const InfoPage = observer(() => {
   const [filter, setFilter] = useState<string>(infoTypes.MESSAGE)
@@ -27,12 +28,8 @@ const InfoPage = observer(() => {
     if (filter === "") {
       setInfos([])
     } else {
-      const infoFilter =
-        CustomerStore.chosenCustomer === null
-          ? { type: filter }
-          : { type: filter, customerName: CustomerStore.chosenCustomer?.name }
-      console.log({ name, infoFilter })
-      getInfos(infoFilter)
+      console.log({ filter })
+      getInfos({ type: filter })
         .then((infos) => {
           console.log(infos)
           setInfos(infos)
@@ -42,7 +39,7 @@ const InfoPage = observer(() => {
         })
       console.log({ filter })
     }
-  }, [filter, CustomerStore.chosenCustomer?.name])
+  }, [filter, CustomerStore.chosenCustomer])
 
   const chooseFilter = (name: string) => {
     if (name === filter) {
@@ -61,12 +58,26 @@ const InfoPage = observer(() => {
     }, 500)
   }
 
+  const customerClick = (customer: Customer) => {
+    CustomerStore.setChosenCustomer(customer)
+  }
+  const filterInfos = () => {
+    return infos.filter((info) =>
+      info.customerName?.toLocaleLowerCase().includes(name.toLocaleLowerCase())
+    )
+  }
+
   return (
     <ProtectedRout>
       <Navbar />
       <div className="min-h-screen max-w-screen mt-20 mx-20 overflow-hidden">
         {/* options */}
-        <FilterOptions chooseFilter={chooseFilter} filter={filter} />
+        <FilterOptions
+          chooseFilter={chooseFilter}
+          filter={filter}
+          items={[infoTypes.ERROR, infoTypes.FUNCTION, infoTypes.MESSAGE]}
+        />
+
         <div className=" w-full">
           <FilterInput
             onFocus={handleFocus}
@@ -75,11 +86,11 @@ const InfoPage = observer(() => {
             value={name}
             placeholder="search customers"
           />
-          {/* customer list  */}
+
           {isShowCustomerList && (
             <div className="relative w-full">
               <div className="absolute w-full">
-                <CustomerList name={name} setName={setName} />
+                <CustomerList name={name} handleClick={customerClick} />
               </div>
             </div>
           )}
@@ -88,7 +99,7 @@ const InfoPage = observer(() => {
         {/* items info */}
         {/* errors */}
         {/*  data list  */}
-        <DataList infos={infos} filter={filter} />
+        <DataList infos={filterInfos()} filter={filter} />
       </div>
     </ProtectedRout>
   )
