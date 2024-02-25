@@ -41,6 +41,12 @@ const InfoPage = observer(() => {
     }
   }, [filter, CustomerStore.chosenCustomer])
 
+  useEffect(() => {
+    if (!isShowCustomerList && name === "") {
+      CustomerStore.setChosenCustomer(null)
+    }
+  }, [isShowCustomerList, name])
+
   const chooseFilter = (name: string) => {
     if (name === filter) {
       setFilter("")
@@ -60,11 +66,12 @@ const InfoPage = observer(() => {
 
   const customerClick = (customer: Customer) => {
     CustomerStore.setChosenCustomer(customer)
+    setName(customer.name)
   }
   const filterInfos = () => {
-    return infos.filter((info) =>
-      info.customerName?.toLocaleLowerCase().includes(name.toLocaleLowerCase())
-    )
+    const custName = CustomerStore.chosenCustomer?.name
+    if (!custName) return infos
+    return infos.filter((info) => info.customerName === custName)
   }
 
   return (
@@ -77,6 +84,13 @@ const InfoPage = observer(() => {
           filter={filter}
           items={[infoTypes.ERROR, infoTypes.FUNCTION, infoTypes.MESSAGE]}
         />
+        {CustomerStore.chosenCustomer && (
+          <FilterOptions
+            chooseFilter={chooseFilter}
+            filter={filter}
+            items={[infoTypes.LIKE, infoTypes.PASS]}
+          />
+        )}
 
         <div className=" w-full">
           <FilterInput
@@ -89,7 +103,7 @@ const InfoPage = observer(() => {
 
           {isShowCustomerList && (
             <div className="relative w-full">
-              <div className="absolute w-full">
+              <div className="absolute w-full z-10 bg-gray-500">
                 <CustomerList name={name} handleClick={customerClick} />
               </div>
             </div>

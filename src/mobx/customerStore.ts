@@ -67,7 +67,7 @@ class CustomerS {
     this.customersXlsData = dupCustomersXlsData
   }
 
-  setChosenCustomer(customer: Customer) {
+  setChosenCustomer(customer: Customer | null) {
     this.chosenCustomer = customer
   }
   async getCustomers() {
@@ -87,7 +87,8 @@ export const CustomerStore = new CustomerS()
 
 autorun(() => {
   // console.log(CustomerStore.customersXlsData)
-  for (const item of CustomerStore.customersXlsData) {
-    console.log(toJS(item))
-  }
+  // for (const item of CustomerStore.customersXlsData) {
+  //   console.log(toJS(item))
+  // }
+  console.log(CustomerStore.chosenCustomer)
 })
