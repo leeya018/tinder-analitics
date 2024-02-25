@@ -5,6 +5,8 @@ import { signOut } from "firebase/auth"
 import { auth } from "@/firebase"
 import { NavNames } from "@/pages/api/util"
 import navStore from "@/mobx/navStore"
+import Image from "next/image"
+import userStore from "@/mobx/userStore"
 
 const Navbar = observer(() => {
   const router = useRouter()
@@ -25,7 +27,7 @@ const Navbar = observer(() => {
   }
 
   return (
-    <nav className="px-8 py-3 bg-blue-500 text-white fixed top-0 w-screen ">
+    <nav className="px-8 py-3 bg-blue-500 text-white fixed top-0 w-screen flex items-center justify-between">
       {/*  nav */}
       <ul className="flex items-center gap-2">
         <li
@@ -45,6 +47,18 @@ const Navbar = observer(() => {
           info
         </li>
       </ul>
+      <div className="flex items-center gap-2">
+        <Image
+          className="rounded-full"
+          src={userStore.user?.photoURL}
+          width={50}
+          height={50}
+          alt="Profile image"
+        />
+        <div className="cursor-pointer" onClick={logout}>
+          logout
+        </div>
+      </div>
     </nav>
   )
 })

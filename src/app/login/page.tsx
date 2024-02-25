@@ -13,8 +13,10 @@ import Image from "next/image"
 import { observer } from "mobx-react-lite"
 import { useRouter } from "next/navigation"
 import { NavNames } from "@/pages/api/util"
+import { addUserFirestore, getUserFirestore } from "@/api/firestore"
 import { User } from "@/api/firestore/user/interfaces"
 import Alerts from "@/ui/Alerts"
+import { messageStore } from "@/mobx/messageStore"
 
 function login() {
   const router = useRouter()
@@ -25,12 +27,17 @@ function login() {
     const provider = new GoogleAuthProvider()
     signInWithPopup(auth, provider)
       .then(async (UserCredentialImp) => {
-        const { email, displayName, uid } = UserCredentialImp.user
-
+        const { email, displayName, uid, photoURL } = UserCredentialImp.user
+        const newUser: User = { email, displayName, userId: uid, photoURL }
+        const user = await getUserFirestore(uid)
+        if (!user) {
+          throw new Error("you are not in the system")
+        }
         router.push(NavNames.home)
       })
       .catch((err) => {
         console.log(err.message)
+        messageStore.setMessage(err.message, 500)
         throw err
       })
   }
@@ -44,7 +51,7 @@ function login() {
         <div className="relative flex flex-col  items-center justify-center h-full w-[90%] md:w-[50%] lg:w-[30%] ">
           {/* title */}
           <div className="absolute top-1 left-1 text-lg font-bold text-left w-full p-2">
-            TINDER ANALYTICS
+            Tinder Analitics
           </div>
           {/* signin */}
           <div className="w-[80%] flex flex-col gap-4">
@@ -81,7 +88,7 @@ function login() {
          shadow-lg  items-center justify-center  sm:flex  "
         >
           <div className="text-white font-bold text-5xl rotate-12">
-            TINDER ANALYTICS
+            Tinder Analitics
           </div>
         </div>
       </div>

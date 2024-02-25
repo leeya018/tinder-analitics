@@ -3,6 +3,7 @@ import { getLikes as getLikesFirestore } from "./like/getLikes"
 import { getCustomers as getCustomersFirestore } from "./customer/getCustomers"
 import { getInfos as getInfosFirestore } from "./info/getInfos"
 import { addInfo as addInfoFirestore } from "./info/addInfo"
+import { getUser as getUserFirestore } from "./user/getUser"
 
 export {
   getMessagesFirestore,
@@ -10,4 +11,5 @@ export {
   getCustomersFirestore,
   getInfosFirestore,
   addInfoFirestore,
+  getUserFirestore,
 }

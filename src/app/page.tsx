@@ -98,7 +98,6 @@ const HomePage = observer(() => {
     <ProtectedRout>
       <Navbar />
       <div className="min-h-screen w-screen overflow-y-scroll mt-20">
-        <button onClick={addInfo}>add info</button>
         {ModalStore.modalName === modals.userInfo && (
           <Modal>
             <DataList infos={infos} filter={filter} />
