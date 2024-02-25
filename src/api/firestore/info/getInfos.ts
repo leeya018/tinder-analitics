@@ -9,12 +9,7 @@ import {
   where,
 } from "firebase/firestore"
 import moment from "moment"
-function isValidFirebaseTimestamp(timestamp: any) {
-  const date = new Date(
-    timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-  )
-  return !isNaN(date.getTime())
-}
+
 export const getInfos = async (filter: any) => {
   try {
     const colRef = collection(db, "info")
@@ -23,10 +18,7 @@ export const getInfos = async (filter: any) => {
       where("type", "==", filter.type),
       orderBy("createdDate", "desc"),
     ]
-    console.log({
-      date: filter.createdDate,
-      sVald: filter.createdDate.isValid(),
-    })
+
     console.log()
     if (filter.customerName) {
       conditions.push(where("customerName", "==", filter.customerName))
@@ -39,8 +31,6 @@ export const getInfos = async (filter: any) => {
       const startTimestamp = fromMomentToTimestamp(startMDate)
       const endTimestamp = fromMomentToTimestamp(endMDate)
 
-      const isValid = isValidFirebaseTimestamp(startTimestamp)
-      console.log({ isValidStamp: isValid })
       console.log({ startTimestamp, endTimestamp })
 
       conditions.push(where("createdDate", ">=", startTimestamp))
