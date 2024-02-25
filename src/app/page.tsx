@@ -32,6 +32,7 @@ import { Info } from "@/api/firestore/info/interfaces"
 import { getInfos } from "@/api/firestore/info/getInfos"
 import { Customer } from "@/api/firestore/customer/interfaces"
 import { Timestamp } from "firebase/firestore"
+import { addInfoFirestore } from "@/api/firestore"
 
 const HomePage = observer(() => {
   const [isShowCustomerList, setIsShowCustomerList] = useState(false)
@@ -81,10 +82,23 @@ const HomePage = observer(() => {
     CustomerStore.getLikes(customer.id, moment())
   }
   console.log({ chosenDate })
+  const addInfo = () => {
+    try {
+      const info: Info = {
+        customerName: "customer.name",
+        data: "firstImage",
+        type: infoTypes.LIKE,
+      }
+      addInfoFirestore(info)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <ProtectedRout>
       <Navbar />
       <div className="min-h-screen w-screen overflow-y-scroll mt-20">
+        <button onClick={addInfo}>add info</button>
         {ModalStore.modalName === modals.userInfo && (
           <Modal>
             <DataList infos={infos} filter={filter} />
