@@ -11,6 +11,7 @@ import Graph from "@/components/graph"
 import { useRouter } from "next/navigation"
 import {
   NavNames,
+  fromMomentToTimestamp,
   getLikeFilePath,
   getPassFilePath,
   getUrl,
@@ -30,6 +31,7 @@ import DataList from "@/components/dataList"
 import { Info } from "@/api/firestore/info/interfaces"
 import { getInfos } from "@/api/firestore/info/getInfos"
 import { Customer } from "@/api/firestore/customer/interfaces"
+import { Timestamp } from "firebase/firestore"
 
 const HomePage = observer(() => {
   const [isShowCustomerList, setIsShowCustomerList] = useState(false)
@@ -57,12 +59,19 @@ const HomePage = observer(() => {
     }, 500)
   }
 
-  const filterClick = async (filt: string) => {
-    setFilter(filt)
-    const data = await getInfos({ type: filt })
-    console.log({ data })
-    setInfos(data)
-    ModalStore.openModal(modals.userInfo)
+  const filterClick = async (type: string) => {
+    setFilter(type)
+    const custName = CustomerStore.chosenCustomer?.name
+    if (custName) {
+      const data = await getInfos({
+        type: type,
+        customerName: custName,
+        createdDate: chosenDate,
+      })
+      console.log({ data })
+      setInfos(data)
+      ModalStore.openModal(modals.userInfo)
+    }
   }
 
   const customerClick = (customer: Customer) => {
@@ -108,7 +117,6 @@ const HomePage = observer(() => {
                 {/* calender + graph */}
                 {CustomerStore.chosenCustomer && (
                   <div>
-                    {/* buttons */}
                     <div className="flex justify-start gap-2">
                       <button
                         onClick={() => filterClick(infoTypes.LIKE)}
@@ -129,6 +137,7 @@ const HomePage = observer(() => {
                         setChosenDate={setChosenDate}
                       />
                       <Graph
+                        setInfos={setInfos}
                         date={chosenDate}
                         likes={CustomerStore.likes}
                         messages={CustomerStore.messages}

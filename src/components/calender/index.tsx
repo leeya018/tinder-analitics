@@ -16,6 +16,7 @@ const Calender = observer<CalenderProps>(({ chosenDate, setChosenDate }) => {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <StaticDatePicker
         orientation="portrait"
+        // value={chosenDate}
         onChange={(value: any) => {
           console.log("moment", moment(value.toDate()))
           setChosenDate(moment(value.toDate()))

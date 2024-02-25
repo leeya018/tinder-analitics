@@ -13,9 +13,10 @@ type GraphProps = {
   likes: any[]
   messages: Message[]
   date: moment.Moment
+  setInfos: any
 }
 
-const Graph = observer<GraphProps>(({ likes, messages, date }) => {
+const Graph = observer<GraphProps>(({ likes, messages, date, setInfos }) => {
   const [chartItems, setChartItems] = useState<any[]>([])
 
   useEffect(() => {
@@ -98,7 +99,9 @@ const Graph = observer<GraphProps>(({ likes, messages, date }) => {
     })
     if (!likeItem) return []
     console.log(likeItem.likeUrls)
-    CustomerStore.setChosenImages(likeItem.likeUrls)
+    // CustomerStore.setChosenImages(likeItem.likeUrls)
+    setInfos(likeItem.likeUrls)
+    ModalStore.openModal(modals.userInfo)
 
     return likeItem.likeUrls
   }

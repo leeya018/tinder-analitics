@@ -59,6 +59,12 @@ export const fromTimestampToStrTime = (date: Timestamp) => {
   return moment(momentDate).format(dateTimeFormat)
 }
 
+export const fromMomentToTimestamp = (dateM: moment.Moment) => {
+  const res = Timestamp.fromDate(dateM.toDate())
+  console.log({ res })
+  return res
+}
+
 export const readFromFile = (filePath: string) => {
   try {
     const data = fs.readFileSync(filePath, { encoding: "utf8", flag: "r" })
