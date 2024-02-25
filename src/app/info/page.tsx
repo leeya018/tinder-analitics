@@ -18,7 +18,7 @@ import { Customer } from "@/api/firestore/customer/interfaces"
 
 const InfoPage = observer(() => {
   const [filter, setFilter] = useState<string>(infoTypes.MESSAGE)
-  const [infos, setInfos] = useState<Info[]>([])
+  const [infos, setInfos] = useState<any[]>([])
   const [isShowCustomerList, setIsShowCustomerList] = useState(false)
   const [name, setName] = useState("")
 

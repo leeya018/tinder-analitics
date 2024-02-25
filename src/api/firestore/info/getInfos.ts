@@ -9,7 +9,7 @@ import {
   where,
 } from "firebase/firestore"
 import moment from "moment"
-function isValidFirebaseTimestamp(timestamp) {
+function isValidFirebaseTimestamp(timestamp: any) {
   const date = new Date(
     timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
   )

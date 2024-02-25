@@ -37,7 +37,7 @@ const HomePage = observer(() => {
   const [isShowCustomerList, setIsShowCustomerList] = useState(false)
   const [name, setName] = useState("")
   const [chosenDate, setChosenDate] = useState<moment.Moment>(moment())
-  const [infos, setInfos] = useState<Info[]>([])
+  const [infos, setInfos] = useState<any[]>([])
   const [filter, setFilter] = useState<string>("")
   const router = useRouter()
 
